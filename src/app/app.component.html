@@ -1,0 +1,181 @@
+<div class="body">
+  <h2>Hello World</h2>
+  <!-- <form [formGroup]="game">
+    <input type="text" formControlName="frame1a" (change)="ngOnChanges($event)" (keyup)="_keyUp($event)" maxlength="1"/>
+    <input type="text" formControlName="frame1b" (change)="ngOnChanges($event)" (keyup)="_keyUp($event)" maxlength="1"/>
+    <input type="text" formControlName="frame2a" (change)="ngOnChanges($event)" (keyup)="_keyUp($event)" maxlength="1"/>
+    <input type="text" formControlName="frame2b" (change)="ngOnChanges($event)" (keyup)="_keyUp($event)" maxlength="1"/>
+    <input type="text" formControlName="frame3a" (change)="ngOnChanges($event)" (keyup)="_keyUp($event)" maxlength="1"/>
+    <input type="text" formControlName="frame3b" (change)="ngOnChanges($event)" (keyup)="_keyUp($event)" maxlength="1"/>
+    <input type="text" formControlName="frame4a" (change)="ngOnChanges($event)" (keyup)="_keyUp($event)" maxlength="1"/>
+    <input type="text" formControlName="frame4b" (change)="ngOnChanges($event)" (keyup)="_keyUp($event)" maxlength="1"/>
+    <input type="text" formControlName="frame5a" (change)="ngOnChanges($event)" (keyup)="_keyUp($event)" maxlength="1"/>
+    <input type="text" formControlName="frame5b" (change)="ngOnChanges($event)" (keyup)="_keyUp($event)" maxlength="1"/>
+    <input type="text" formControlName="frame6a" (change)="ngOnChanges($event)" (keyup)="_keyUp($event)" maxlength="1"/>
+    <input type="text" formControlName="frame6b" (change)="ngOnChanges($event)" (keyup)="_keyUp($event)" maxlength="1"/>
+    <input type="text" formControlName="frame7a" (change)="ngOnChanges($event)" (keyup)="_keyUp($event)" maxlength="1"/>
+    <input type="text" formControlName="frame7b" (change)="ngOnChanges($event)" (keyup)="_keyUp($event)" maxlength="1"/>
+    <input type="text" formControlName="frame8a" (change)="ngOnChanges($event)" (keyup)="_keyUp($event)" maxlength="1"/>
+    <input type="text" formControlName="frame8b" (change)="ngOnChanges($event)" (keyup)="_keyUp($event)" maxlength="1"/>
+    <input type="text" formControlName="frame9a" (change)="ngOnChanges($event)" (keyup)="_keyUp($event)" maxlength="1"/>
+    <input type="text" formControlName="frame9b" (change)="ngOnChanges($event)" (keyup)="_keyUp($event)" maxlength="1"/>
+    <input type="text" formControlName="frame10" (change)="ngOnChanges($event)" (keyup)="_keyUp($event)" maxlength="1"/>
+    <input type="text" formControlName="frame10b" (change)="ngOnChanges($event)" (keyup)="_keyUp($event)" maxlength="1"/>
+    <input type="text" formControlName="frame10c" (change)="ngOnChanges($event)" (keyup)="_keyUp($event)" maxlength="1"/>
+  </form> -->
+  <p>{{score}}</p>
+</div>
+<div>
+  <form [formGroup]="game">
+    <table bordercolor="#000000" cellspacing="0" cellpadding="0" align="center" border="1" >
+      <tbody>
+        <tr>
+          <td align="middle">1</td>
+          <td align="middle">2</td>
+          <td align="middle">3</td>
+          <td align="middle">4</td>
+          <td align="middle">5</td>
+          <td align="middle">6</td>
+          <td align="middle">7</td>
+          <td align="middle">8</td>
+          <td align="middle">9</td>
+          <td align="middle">10</td>
+        </tr>
+        <tr>
+          <td valign="top" align="right">
+            <table cellspacing="0" cellpadding="5">
+              <tbody>
+                <tr align="top">
+                  <td><input (keyup)="calculate($event, 0)" tabindex="1" maxlength="1" size="1" formControlName="shot0"></td>
+                  <td style="BORDER-RIGHT: 1px solid; BORDER-TOP: 1px solid; BORDER-LEFT: 1px solid; BORDER-BOTTOM: 1px solid"><input (keyup)="calculate($event, 1)" tabindex="2" maxlength="1" size="1" formControlName="shot1"></td>
+                </tr>
+                <tr height="40">
+                  <td align="right" colspan="2"><input tabindex="21" size="3" name="frame0"></td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td valign="top" align="right">
+            <table cellspacing="0" cellpadding="5">
+              <tbody>
+                <tr align="top">
+                  <td><input (keyup)="calculate($event, 2)" tabindex="3" maxlength="1" size="1" formControlName="shot2"></td>
+                  <td style="BORDER-RIGHT: 1px solid; BORDER-TOP: 1px solid; BORDER-LEFT: 1px solid; BORDER-BOTTOM: 1px solid"><input (keyup)="calculate($event, 3)" tabindex="4" maxlength="1" size="1" formControlName="shot3"></td>
+                </tr>
+                <tr height="40">
+                  <td align="right" colspan="2"><input tabindex="22" size="3" name="frame1"></td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td valign="top" align="right">
+            <table cellspacing="0" cellpadding="5">
+              <tbody>
+                <tr align="top">
+                  <td><input (keyup)="calculate($event, 4)" tabindex="5" maxlength="1" size="1" formControlName="shot4"></td>
+                  <td style="BORDER-RIGHT: 1px solid; BORDER-TOP: 1px solid; BORDER-LEFT: 1px solid; BORDER-BOTTOM: 1px solid"><input (keyup)="calculate($event, 5)" tabindex="6" maxlength="1" size="1" formControlName="shot5"></td>
+                </tr>
+                <tr height="40">
+                  <td align="right" colspan="2"><input tabindex="23" size="3" name="frame2"></td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td valign="top" align="right">
+            <table cellspacing="0" cellpadding="5">
+              <tbody>
+                <tr align="top">
+                  <td><input (keyup)="calculate($event, 6)" tabindex="7" maxlength="1" size="1" formControlName="shot6"></td>
+                  <td style="BORDER-RIGHT: 1px solid; BORDER-TOP: 1px solid; BORDER-LEFT: 1px solid; BORDER-BOTTOM: 1px solid"><input (keyup)="calculate($event, 7)" tabindex="8" maxlength="1" size="1" formControlName="shot7"></td>
+                </tr>
+                <tr height="40">
+                  <td align="right" colspan="2"><input tabindex="24" size="3" name="frame3"></td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td valign="top" align="right">
+            <table cellspacing="0" cellpadding="5">
+              <tbody>
+                <tr align="top">
+                  <td><input (keyup)="calculate($event, 8)" tabindex="9" maxlength="1" size="1" formControlName="shot8"></td>
+                  <td style="BORDER-RIGHT: 1px solid; BORDER-TOP: 1px solid; BORDER-LEFT: 1px solid; BORDER-BOTTOM: 1px solid"><input (keyup)="calculate($event, 9)" tabindex="10" maxlength="1" size="1" formControlName="shot9"></td>
+                </tr>
+                <tr height="40">
+                  <td align="right" colspan="2"><input tabindex="25" size="3" name="frame4"></td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td valign="top" align="right">
+            <table cellspacing="0" cellpadding="5">
+              <tbody>
+                <tr align="top">
+                  <td><input (keyup)="calculate($event, 10)" tabindex="11" maxlength="1" size="1" formControlName="shot10"></td>
+                  <td style="BORDER-RIGHT: 1px solid; BORDER-TOP: 1px solid; BORDER-LEFT: 1px solid; BORDER-BOTTOM: 1px solid"><input (keyup)="calculate($event, 11)" tabindex="12" maxlength="1" size="1" formControlName="shot11"></td>
+                </tr>
+                <tr height="40">
+                  <td align="right" colspan="2"><input tabindex="26" size="3" name="frame5"></td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td valign="top" align="right">
+            <table cellspacing="0" cellpadding="5">
+              <tbody>
+                <tr align="top">
+                  <td><input (keyup)="calculate($event, 12)" tabindex="13" maxlength="1" size="1" formControlName="shot12"></td>
+                  <td style="BORDER-RIGHT: 1px solid; BORDER-TOP: 1px solid; BORDER-LEFT: 1px solid; BORDER-BOTTOM: 1px solid"><input (keyup)="calculate($event, 13)" tabindex="14" maxlength="1" size="1" formControlName="shot13"></td>
+                </tr>
+                <tr height="40">
+                  <td align="right" colspan="2"><input tabindex="27" size="3" name="frame6"></td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td valign="top" align="right">
+            <table cellspacing="0" cellpadding="5">
+              <tbody>
+                <tr align="top">
+                  <td><input (keyup)="calculate($event, 14)" tabindex="15" maxlength="1" size="1" formControlName="shot14"></td>
+                  <td style="BORDER-RIGHT: 1px solid; BORDER-TOP: 1px solid; BORDER-LEFT: 1px solid; BORDER-BOTTOM: 1px solid"><input (keyup)="calculate($event, 15)" tabindex="16" maxlength="1" size="1" formControlName="shot15"></td>
+                </tr>
+                <tr height="40">
+                  <td align="right" colspan="2"><input tabindex="28" size="3" name="frame7"></td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td valign="top" align="right">
+            <table cellspacing="0" cellpadding="5">
+              <tbody>
+                <tr align="top">
+                  <td><input (keyup)="calculate($event, 16)" tabindex="17" maxlength="1" size="1" formControlName="shot16"></td>
+                  <td style="BORDER-RIGHT: 1px solid; BORDER-TOP: 1px solid; BORDER-LEFT: 1px solid; BORDER-BOTTOM: 1px solid"><input (keyup)="calculate($event, 17)" tabindex="18" maxlength="1" size="1" formControlName="shot17"></td>
+                </tr>
+                <tr height="40">
+                  <td align="right" colspan="2"><input tabindex="29" size="3" name="frame8"></td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td valign="top" align="right">
+            <table cellspacing="0" cellpadding="5">
+              <tbody>
+                <tr align="top">
+                  <td><input (keyup)="calculate($event, 18)" tabindex="18" maxlength="1" size="1" formControlName="shot18"></td>
+                  <td style="BORDER-RIGHT: 1px solid; BORDER-TOP: 1px solid; BORDER-LEFT: 1px solid; BORDER-BOTTOM: 1px solid"><input (keyup)="calculate($event, 19)" tabindex="19" maxlength="1" size="1" formControlName="shot19"></td>
+                  <td style="BORDER-RIGHT: 1px solid; BORDER-TOP: 1px solid; BORDER-LEFT: 1px solid; BORDER-BOTTOM: 1px solid"><input tabindex="20" maxlength="1" size="1" formControlName="shot20"></td>
+                </tr>
+                <tr height="40">
+                  <td align="right" colspan="2"><input tabindex="30" size="3" name="frame9"></td>
+                </tr>
+              </tbody>
+            </table>
+            <pre>&nbsp;</pre>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</div>
