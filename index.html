@@ -7,58 +7,15 @@
     <link rel="stylesheet" href="main.css">
     <script src="main.js"></script>
 </head>
+<!-- <body onload="onload()"> -->
 <body>
     <h1>Bowling Score Calculator</h1>
-    <form id="bowling-form">
-        <div>
-            <label>Frame one roll 1: <input type="number" min="0" max="10" id="f1r1"></label>
-            <label>Frame one roll 2: <input type="number" min="0" max="10" id="f1r2"></label>
-        </div>
-        <div>
-            <label>Frame two roll 1: <input type="number" min="0" max="10" id="f2r1"></label>
-            <label>Frame two roll 2: <input type="number" min="0" max="10" id="f2r2"></label>
-        </div>
-        <div>
-            <label>Frame three roll 1: <input type="number" min="0" max="10" id="f3r1"></label>
-            <label>Frame three roll 2: <input type="number" min="0" max="10" id="f3r2"></label>
-        </div>
-        <div>
-            <label>Frame four roll 1: <input type="number" min="0" max="10" id="f4r1"></label>
-            <label>Frame four roll 2: <input type="number" min="0" max="10" id="f4r2"></label>
-        </div>
-        <div>
-            <label>Frame five roll 1: <input type="number" min="0" max="10" id="f5r1"></label>
-            <label>Frame five roll 2: <input type="number" min="0" max="10" id="f5r2"></label>
-        </div>
-        <div>
-            <label>Frame six roll 1: <input type="number" min="0" max="10" id="f6r1"></label>
-            <label>Frame six roll 2: <input type="number" min="0" max="10" id="f6r2"></label>
-        </div>
-        <div>
-            <label>Frame seven roll 1: <input type="number" min="0" max="10" id="f7r1"></label>
-            <label>Frame seven roll 2: <input type="number" min="0" max="10" id="f7r2"></label>
-        </div>
-        <div>
-            <label>Frame eight roll 1: <input type="number" min="0" max="10" id="f8r1"></label>
-            <label>Frame eight roll 2: <input type="number" min="0" max="10" id="f8r2"></label>
-        </div>
-        <div>
-            <label>Frame nine roll 1: <input type="number" min="0" max="10" id="f9r1"></label>
-            <label>Frame nine roll 2: <input type="number" min="0" max="10" id="f9r2"></label>
-        </div>
-        <div>
-            <label>Frame ten roll 1: <input type="number" min="0" max="10" id="f10r1"></label>
-            <label>Frame ten roll 2: <input type="number" min="0" max="10" id="f10r2"></label>
-            <label>Frame ten roll 3: <input type="number" min="0" max="10" id="f10r3"></label>
-        </div>
-        <button type="button" id="calculate-score" onclick="generateScore()">Calculate Score</button>
-    </form>
+    
     <div id="score-result"><p id="score-result-text"></p></div>
 
     <div>
         <!-- Add second interface here-->
         <div id="traditional-frame-sheet">
-            <h2>Traditional Frame Sheet</h2>
             <div class="traditional-frame-sheet-row">
                 <!-- Frames 1-9 -->
                 <div class="traditional-frame-sheet-frames">
@@ -94,7 +51,7 @@
                     <div class="frame-box-score" id="sheet-f10-score"></div>
                 </div>
             </div>
-            <button type="button" onclick="sheetToInputs()">Copy to Above Inputs</button>
+            <button type="button" id="calculate-score" onclick="generateScore()">Calculate Score</button>
         </div>
     </div>
 </body>

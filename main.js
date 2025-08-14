@@ -53,10 +53,10 @@ function collectInput() {
 
     //TODO: Think of a more elegant way to do this.
     for (let i = 0; i < 10; i++) {
-        frames.push(parseInt(document.getElementById('f' + (i + 1) + 'r1').value));
-        frames.push(parseInt(document.getElementById('f' + (i + 1) + 'r2').value));
+        frames.push(parseInt(document.getElementById('sheet-f' + (i + 1) + 'r1').value));
+        frames.push(parseInt(document.getElementById('sheet-f' + (i + 1) + 'r2').value));
     }
-    frames.push(parseInt(document.getElementById('f10r3').value));
+    frames.push(parseInt(document.getElementById('sheet-f10r3').value));
 
     
     return frames;
@@ -102,4 +102,15 @@ function sheetToInputs() {
     const sheetR3 = document.getElementById('sheet-f10r3');
     const mainR3 = document.getElementById('f10r3');
     if (sheetR3 && mainR3) mainR3.value = sheetR3.value;
+}
+
+// Onload
+function onload() {
+    // Dynamically render frames 1-9
+    for(let f=1; f<=9; f++) {
+        const tpl = document.getElementById('frame-template').innerHTML
+            .replace(/\{F\}/g, f)
+            .replace('Frame', f);
+        document.write(tpl);
+    }
 }
