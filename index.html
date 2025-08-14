@@ -6,12 +6,12 @@
     <title>Bowling Score Calculator</title>
     <link rel="stylesheet" href="main.css">
     <script src="main.js"></script>
+    <script src="unitTests.js"></script>
 </head>
-<!-- <body onload="onload()"> -->
-<body>
+<body onload="onload()">
     <h1>Bowling Score Calculator</h1>
     
-    <div id="score-result"><p id="score-result-text"></p></div>
+    <div id="score-result"><p id="score-result-text">&nbsp;</p></div>
 
     <div>
         <!-- Add second interface here-->
@@ -24,8 +24,8 @@
                     <div class="frame-box">
                         <div class="frame-box-label">Frame</div>
                         <div class="frame-box-rolls">
-                            <input type="number" min="0" max="10" class="traditional-frame-sheet-input" id="sheet-f{F}r1">
-                            <input type="number" min="0" max="10" class="traditional-frame-sheet-input" id="sheet-f{F}r2">
+                            <input type="text" maxlength="1" class="traditional-frame-sheet-input" id="sheet-f{F}r1" oninput="validateBowlingInput(this)">
+                            <input type="text" maxlength="1" class="traditional-frame-sheet-input" id="sheet-f{F}r2" oninput="validateBowlingInput(this)">
                         </div>
                         <div class="frame-box-score" id="sheet-f{F}-score"></div>
                     </div>
@@ -44,14 +44,15 @@
                 <div class="frame-box frame-10">
                     <div class="frame-box-label">10</div>
                     <div class="frame-box-rolls">
-                        <input type="number" min="0" max="10" class="traditional-frame-sheet-input" id="sheet-f10r1">
-                        <input type="number" min="0" max="10" class="traditional-frame-sheet-input" id="sheet-f10r2">
-                        <input type="number" min="0" max="10" class="traditional-frame-sheet-input" id="sheet-f10r3">
+                        <input type="text" maxlength="1" class="traditional-frame-sheet-input" id="sheet-f10r1" oninput="validateBowlingInput(this)">
+                        <input type="text" maxlength="1" class="traditional-frame-sheet-input" id="sheet-f10r2" oninput="validateBowlingInput(this)">
+                        <input type="text" maxlength="1" class="traditional-frame-sheet-input" id="sheet-f10r3" oninput="validateBowlingInput(this)">
                     </div>
                     <div class="frame-box-score" id="sheet-f10-score"></div>
                 </div>
             </div>
             <button type="button" id="calculate-score" onclick="generateScore()">Calculate Score</button>
+            <button type="button" id="clear-score" onclick="clearScore()">Clear Score</button>
         </div>
     </div>
 </body>
