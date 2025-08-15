@@ -10,50 +10,8 @@
 </head>
 <body onload="onload()">
     <h1>Bowling Score Calculator</h1>
-    
-    <div id="score-result"><p id="score-result-text">&nbsp;</p></div>
-
-    <div>
-        <!-- Add second interface here-->
-        <div id="traditional-frame-sheet">
-            <div class="traditional-frame-sheet-row">
-                <!-- Frames 1-9 -->
-                <div class="traditional-frame-sheet-frames">
-                <!-- Frame 1-9 -->
-                <template id="frame-template">
-                    <div class="frame-box">
-                        <div class="frame-box-label">Frame</div>
-                        <div class="frame-box-rolls">
-                            <input type="text" maxlength="1" class="traditional-frame-sheet-input" id="sheet-f{F}r1" oninput="validateBowlingInput(this)">
-                            <input type="text" maxlength="1" class="traditional-frame-sheet-input" id="sheet-f{F}r2" oninput="validateBowlingInput(this)">
-                        </div>
-                        <div class="frame-box-score" id="sheet-f{F}-score"></div>
-                    </div>
-                </template>
-                <script>
-                // Dynamically render frames 1-9
-                for(let f=1; f<=9; f++) {
-                    const tpl = document.getElementById('frame-template').innerHTML
-                        .replace(/\{F\}/g, f)
-                        .replace('Frame', f);
-                    document.write(tpl);
-                }
-                </script>
-                </div>
-                <!-- Frame 10 -->
-                <div class="frame-box frame-10">
-                    <div class="frame-box-label">10</div>
-                    <div class="frame-box-rolls">
-                        <input type="text" maxlength="1" class="traditional-frame-sheet-input" id="sheet-f10r1" oninput="validateBowlingInput(this)">
-                        <input type="text" maxlength="1" class="traditional-frame-sheet-input" id="sheet-f10r2" oninput="validateBowlingInput(this)">
-                        <input type="text" maxlength="1" class="traditional-frame-sheet-input" id="sheet-f10r3" oninput="validateBowlingInput(this)">
-                    </div>
-                    <div class="frame-box-score" id="sheet-f10-score"></div>
-                </div>
-            </div>
-            <button type="button" id="calculate-score" onclick="generateScore()">Calculate Score</button>
-            <button type="button" id="clear-score" onclick="clearScore()">Clear Score</button>
-        </div>
-    </div>
+    <!-- Frame sheets to be added here -->
+    <div id="framesheets"></div>
+    <button type="button" id="newsheet" onclick="addSheet()">Add Another Player</button>
 </body>
 </html>

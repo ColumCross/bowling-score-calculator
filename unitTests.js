@@ -1,64 +1,7 @@
 // Unit Tests for Bowling Score Calculator
 // Run these tests to verify the score logic is working correctly
 
-// Mock DOM elements for testing
-function createMockDOM() {
-    // Create mock input elements
-    const mockInputs = {};
-    
-    for (let i = 1; i <= 10; i++) {
-        mockInputs[`sheet-f${i}r1`] = { value: '' };
-        mockInputs[`sheet-f${i}r2`] = { value: '' };
-    }
-    mockInputs['sheet-f10r3'] = { value: '' };
-    
-    // Mock score result element
-    mockInputs['score-result-text'] = { innerHTML: '' };
-    
-    // Store original document
-    window.originalDocument = window.document;
-    
-    // Mock getElementById
-    window.document = {
-        getElementById: function(id) {
-            return mockInputs[id] || null;
-        }
-    };
-}
-
-// Restore original document
-function restoreDOM() {
-    if (window.originalDocument) {
-        window.document = window.originalDocument;
-    }
-}
-
-// Test helper function to set input values
-function setInputValues(values) {
-    for (const [id, value] of Object.entries(values)) {
-        if (window.document.getElementById(id)) {
-            window.document.getElementById(id).value = value;
-        }
-    }
-}
-
-// Test helper function to clear all inputs
-function clearAllInputs() {
-    const allInputs = [
-        'sheet-f1r1', 'sheet-f1r2', 'sheet-f2r1', 'sheet-f2r2', 'sheet-f3r1', 'sheet-f3r2',
-        'sheet-f4r1', 'sheet-f4r2', 'sheet-f5r1', 'sheet-f5r2', 'sheet-f6r1', 'sheet-f6r2',
-        'sheet-f7r1', 'sheet-f7r2', 'sheet-f8r1', 'sheet-f8r2', 'sheet-f9r1', 'sheet-f9r2',
-        'sheet-f10r1', 'sheet-f10r2', 'sheet-f10r3'
-    ];
-    
-    allInputs.forEach(id => {
-        if (window.document.getElementById(id)) {
-            window.document.getElementById(id).value = '';
-        }
-    });
-}
-
-// Test the convertBowlingInput function
+// Test the convertBowlingInput function (no DOM required)
 function testConvertBowlingInput() {
     console.log("Testing convertBowlingInput function...");
     
@@ -72,7 +15,7 @@ function testConvertBowlingInput() {
     console.assert(convertBowlingInput('x') === 10, "convertBowlingInput('x') should return 10");
     
     // Test spares
-    console.assert(convertBowlingInput('/') === 10, "convertBowlingInput('/') should return 10");
+    console.assert(convertBowlingInput('/') === -1, "convertBowlingInput('/') should return -1");
     
     // Test invalid inputs
     console.assert(convertBowlingInput('') === null, "convertBowlingInput('') should return null");
@@ -82,7 +25,7 @@ function testConvertBowlingInput() {
     console.log("✓ convertBowlingInput tests passed");
 }
 
-// Test the scoreLogic function
+// Test the scoreLogic function (no DOM required)
 function testScoreLogic() {
     console.log("Testing scoreLogic function...");
     
@@ -93,8 +36,8 @@ function testScoreLogic() {
     console.assert(scoreLogic([10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10]).score === 300, "Perfect game should score 300");
     console.assert(scoreLogic([10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10]).reason === "perfect", "Perfect game should have reason 'perfect'");
     
-    // Test spares
-    console.assert(scoreLogic([5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]).score === 150, "All spares should score 150");
+    // Test spares (using -1 marker)
+    console.assert(scoreLogic([5, -1, 5, -1, 5, -1, 5, -1, 5, -1, 5, -1, 5, -1, 5, -1, 5, -1, 5, -1, 5]).score === 150, "All spares should score 150");
     
     // Test mixed game
     console.assert(scoreLogic([10, 7, 3, 9, 1, 10, 10, 10, 8, 2, 9, 1, 10, 10, 10]).score === 200, "Mixed game should score correctly");
@@ -104,8 +47,8 @@ function testScoreLogic() {
     console.assert(result.canCalculate === false, "Unresolved strikes should not be calculable");
     console.assert(result.reason === "unresolved", "Unresolved strikes should have reason 'unresolved'");
     
-    // Test unresolved spares
-    result = scoreLogic([5, 5, 7, 3, 8, 2]);
+    // Test unresolved spares (using -1 marker)
+    result = scoreLogic([5, -1, 7, 3, 8, 2]);
     console.assert(result.canCalculate === false, "Unresolved spares should not be calculable");
     console.assert(result.reason === "unresolved", "Unresolved spares should have reason 'unresolved'");
     
@@ -118,167 +61,196 @@ function testScoreLogic() {
     console.log("✓ scoreLogic tests passed");
 }
 
-// Test the collectInput function
-function testCollectInput() {
-    console.log("Testing collectInput function...");
-    
-    // Test empty inputs
-    clearAllInputs();
-    let result = collectInput();
-    console.assert(result.frames.length === 0, "Empty inputs should return empty frames array");
-    console.assert(result.framesCompleted === 0, "Empty inputs should return 0 frames completed");
-    
-    // Test single frame
-    clearAllInputs();
-    setInputValues({
-        'sheet-f1r1': '7',
-        'sheet-f1r2': '2'
-    });
-    result = collectInput();
-    console.assert(result.frames.length === 2, "Single frame should return 2 rolls");
-    console.assert(result.frames[0] === 7, "First roll should be 7");
-    console.assert(result.frames[1] === 2, "Second roll should be 2");
-    console.assert(result.framesCompleted === 1, "Single frame should return 1 frame completed");
-    
-    // Test strike frame
-    clearAllInputs();
-    setInputValues({
-        'sheet-f1r1': 'X'
-    });
-    result = collectInput();
-    console.assert(result.frames.length === 1, "Strike frame should return 1 roll");
-    console.assert(result.frames[0] === 10, "Strike should be 10");
-    console.assert(result.framesCompleted === 1, "Strike frame should return 1 frame completed");
-    
-    // Test spare frame
-    clearAllInputs();
-    setInputValues({
-        'sheet-f1r1': '5',
-        'sheet-f1r2': '/'
-    });
-    result = collectInput();
-    console.assert(result.frames.length === 2, "Spare frame should return 2 rolls");
-    console.assert(result.frames[0] === 5, "First roll should be 5");
-    console.assert(result.frames[1] === 10, "Spare should be 10");
-    console.assert(result.framesCompleted === 1, "Spare frame should return 1 frame completed");
-    
-    // Test multiple frames
-    clearAllInputs();
-    setInputValues({
-        'sheet-f1r1': '7', 'sheet-f1r2': '2',
-        'sheet-f2r1': 'X',
-        'sheet-f3r1': '5', 'sheet-f3r2': '4'
-    });
-    result = collectInput();
-    console.assert(result.frames.length === 5, "Multiple frames should return correct number of rolls");
-    console.assert(result.framesCompleted === 3, "Multiple frames should return correct frames completed");
-    
-    console.log("✓ collectInput tests passed");
-}
-
-// Test the generateScore function
-function testGenerateScore() {
-    console.log("Testing generateScore function...");
-    
-    // Test empty game
-    clearAllInputs();
-    generateScore();
-    let displayText = window.document.getElementById('score-result-text').innerHTML;
-    console.assert(displayText === "Score so far: 0", "Empty game should show 'Score so far: 0'");
-    
-    // Test open frame
-    clearAllInputs();
-    setInputValues({
-        'sheet-f1r1': '7',
-        'sheet-f1r2': '2'
-    });
-    generateScore();
-    displayText = window.document.getElementById('score-result-text').innerHTML;
-    console.assert(displayText === "Score so far: 9", "Open frame should show 'Score so far: 9'");
-    
-    // Test unresolved strike
-    clearAllInputs();
-    setInputValues({
-        'sheet-f1r1': 'X'
-    });
-    generateScore();
-    displayText = window.document.getElementById('score-result-text').innerHTML;
-    console.assert(displayText === "Score cannot be calculated yet. Keep bowling!", "Unresolved strike should show 'Score cannot be calculated yet. Keep bowling!'");
-    
-    // Test unresolved spare
-    clearAllInputs();
-    setInputValues({
-        'sheet-f1r1': '5',
-        'sheet-f1r2': '/'
-    });
-    generateScore();
-    displayText = window.document.getElementById('score-result-text').innerHTML;
-    console.assert(displayText === "Score cannot be calculated yet. Keep bowling!", "Unresolved spare should show 'Score cannot be calculated yet. Keep bowling!'");
-    
-    // Test complete open game
-    clearAllInputs();
-    setInputValues({
-        'sheet-f1r1': '7', 'sheet-f1r2': '2',
-        'sheet-f2r1': '8', 'sheet-f2r2': '1',
-        'sheet-f3r1': '9', 'sheet-f3r2': '0',
-        'sheet-f4r1': '6', 'sheet-f4r2': '3',
-        'sheet-f5r1': '5', 'sheet-f5r2': '4',
-        'sheet-f6r1': '8', 'sheet-f6r2': '1',
-        'sheet-f7r1': '7', 'sheet-f7r2': '2',
-        'sheet-f8r1': '9', 'sheet-f8r2': '0',
-        'sheet-f9r1': '6', 'sheet-f9r2': '3',
-        'sheet-f10r1': '5', 'sheet-f10r2': '4'
-    });
-    generateScore();
-    displayText = window.document.getElementById('score-result-text').innerHTML;
-    console.assert(displayText === "Total score: 85", "Complete open game should show 'Total score: 85'");
-    
-    console.log("✓ generateScore tests passed");
-}
-
-// Test edge cases
+// Test edge cases (no DOM required)
 function testEdgeCases() {
     console.log("Testing edge cases...");
     
     // Test invalid frame (more than 10 pins)
-    clearAllInputs();
-    setInputValues({
-        'sheet-f1r1': '7',
-        'sheet-f1r2': '5'  // This would be 12 pins, invalid
-    });
-    generateScore();
-    let displayText = window.document.getElementById('score-result-text').innerHTML;
-    console.assert(displayText === "Score so far: 7", "Invalid frame should still show partial score");
+    let result = scoreLogic([7, 5]); // This would be 12 pins, invalid
+    console.assert(result.canCalculate === true, "Invalid frame should still be calculable");
+    console.assert(result.score === 7, "Invalid frame should show partial score");
     
     // Test incomplete frame
-    clearAllInputs();
-    setInputValues({
-        'sheet-f1r1': '7'
-        // Missing second roll
-    });
-    generateScore();
-    displayText = window.document.getElementById('score-result-text').innerHTML;
-    console.assert(displayText === "Score so far: 7", "Incomplete frame should show partial score");
+    result = scoreLogic([7]); // Missing second roll
+    console.assert(result.canCalculate === true, "Incomplete frame should be calculable");
+    console.assert(result.score === 7, "Incomplete frame should show partial score");
     
     // Test 10th frame with strike
-    clearAllInputs();
-    setInputValues({
-        'sheet-f1r1': '7', 'sheet-f1r2': '2',
-        'sheet-f2r1': '8', 'sheet-f2r2': '1',
-        'sheet-f3r1': '9', 'sheet-f3r2': '0',
-        'sheet-f4r1': '6', 'sheet-f4r2': '3',
-        'sheet-f5r1': '5', 'sheet-f5r2': '4',
-        'sheet-f6r1': '8', 'sheet-f6r2': '1',
-        'sheet-f7r1': '7', 'sheet-f7r2': '2',
-        'sheet-f8r1': '9', 'sheet-f8r2': '0',
-        'sheet-f9r1': '6', 'sheet-f9r2': '3',
-        'sheet-f10r1': 'X', 'sheet-f10r2': '7', 'sheet-f10r3': '3'
-    });
-    generateScore();
-    displayText = window.document.getElementById('score-result-text').innerHTML;
-    console.assert(displayText === "Total score: 95", "10th frame strike should score correctly");
+    result = scoreLogic([7, 2, 8, 1, 9, 0, 6, 3, 5, 4, 8, 1, 7, 2, 9, 0, 6, 3, 10, 7, 3]);
+    console.assert(result.canCalculate === true, "10th frame strike should be calculable");
+    console.assert(result.score === 95, "10th frame strike should score correctly");
     
     console.log("✓ Edge case tests passed");
+}
+
+// Test multi-sheet functionality with real DOM elements
+function testMultiSheetFunctionality() {
+    console.log("Testing multi-sheet functionality...");
+    
+    // First, add a sheet to create real DOM elements
+    addSheet();
+    
+    // Get the newly created sheet
+    const framesheets = document.getElementById('framesheets');
+    const newSheet = framesheets.lastElementChild;
+    const sheetId = newSheet.id;
+    
+    console.log("Created sheet with ID:", sheetId);
+    
+    try {
+        // Test canInputFrameForSheet function
+        console.assert(canInputFrameForSheet(1, sheetId) === true, "First frame should always be inputtable");
+        console.assert(canInputFrameForSheet(2, sheetId) === false, "Second frame should not be inputtable without previous frame");
+        
+        // Test frame input validation
+        const r1Input = document.getElementById(`${sheetId}-f1r1`);
+        const r2Input = document.getElementById(`${sheetId}-f2r1`);
+        
+        console.assert(r1Input !== null, "First frame first roll input should exist");
+        console.assert(r2Input !== null, "Second frame first roll input should exist");
+        console.assert(r1Input.disabled === false, "First frame should be enabled");
+        console.assert(r2Input.disabled === true, "Second frame should be disabled initially");
+        
+        // Test strike input
+        r1Input.value = 'X';
+        r1Input.dispatchEvent(new Event('input'));
+        
+        // Check that second roll is disabled after strike
+        const r1r2Input = document.getElementById(`${sheetId}-f1r2`);
+        console.assert(r1r2Input.disabled === true, "Second roll should be disabled after strike");
+        console.assert(r1r2Input.value === '', "Second roll should be cleared after strike");
+        
+        // Check that next frame is enabled
+        console.assert(r2Input.disabled === false, "Next frame should be enabled after strike");
+        
+        // Test spare input
+        r1Input.value = '5';
+        r1Input.dispatchEvent(new Event('input'));
+        r1r2Input.value = '/';
+        r1r2Input.dispatchEvent(new Event('input'));
+        
+        // Check that next frame is enabled after spare
+        console.assert(r2Input.disabled === false, "Next frame should be enabled after spare");
+        
+        // Test collectInputForSheet function
+        let result = collectInputForSheet(sheetId);
+        console.assert(result.frames.length === 2, "collectInputForSheet should return 2 rolls");
+        console.assert(result.frames[0] === 5, "First roll should be 5");
+        console.assert(result.frames[1] === -1, "Second roll should be -1 (spare)");
+        console.assert(result.framesCompleted === 1, "Should have 1 frame completed");
+        
+        // Test generateScoreForSheet function
+        generateScoreForSheet(sheetId);
+        const scoreElement = document.getElementById(`${sheetId}-score-result-text`);
+        console.assert(scoreElement !== null, "Score display element should exist");
+        console.assert(scoreElement.innerHTML === "Score cannot be calculated yet. Keep bowling!", "Unresolved spare should show correct message");
+        
+        // Test clearScoreForSheet function
+        clearScoreForSheet(sheetId);
+        console.assert(r1Input.value === '', "First roll should be cleared");
+        console.assert(r1r2Input.value === '', "Second roll should be cleared");
+        console.assert(scoreElement.innerHTML === '&nbsp;', "Score display should be cleared");
+        
+        console.log("✓ Multi-sheet functionality tests passed");
+        
+    } catch (error) {
+        console.error("Error in multi-sheet test:", error);
+        throw error;
+    }
+}
+
+// Test sheet initialization and event handling
+function testSheetInitialization() {
+    console.log("Testing sheet initialization...");
+    
+    // Add another sheet for testing
+    addSheet();
+    
+    const framesheets = document.getElementById('framesheets');
+    const newSheet = framesheets.lastElementChild;
+    const sheetId = newSheet.id;
+    
+    try {
+        // Test updateFrameInputsForSheet
+        updateFrameInputsForSheet(sheetId);
+        
+        // First frame should be enabled
+        const r1Input = document.getElementById(`${sheetId}-f1r1`);
+        const r1r2Input = document.getElementById(`${sheetId}-f1r2`);
+        console.assert(r1Input.disabled === false, "First frame first roll should be enabled");
+        console.assert(r1r2Input.disabled === false, "First frame second roll should be enabled");
+        
+        // Second frame should be disabled initially
+        const r2Input = document.getElementById(`${sheetId}-f2r1`);
+        const r2r2Input = document.getElementById(`${sheetId}-f2r2`);
+        console.assert(r2Input.disabled === true, "Second frame should be disabled initially");
+        console.assert(r2r2Input.disabled === true, "Second frame second roll should be disabled initially");
+        
+        // Test strike validation in updateFrameInputsForSheet
+        r1Input.value = 'X';
+        updateFrameInputsForSheet(sheetId);
+        
+        // Second roll should be disabled after strike (except 10th frame)
+        console.assert(r1r2Input.disabled === true, "Second roll should be disabled after strike");
+        console.assert(r1r2Input.value === '', "Second roll should be cleared after strike");
+        
+        // Next frame should be enabled
+        console.assert(r2Input.disabled === false, "Next frame should be enabled after strike");
+        
+        console.log("✓ Sheet initialization tests passed");
+        
+    } catch (error) {
+        console.error("Error in sheet initialization test:", error);
+        throw error;
+    }
+}
+
+// Test the addSheet function itself
+function testAddSheetFunction() {
+    console.log("Testing addSheet function...");
+    
+    const initialCount = document.getElementById('framesheets').children.length;
+    
+    // Add a new sheet
+    addSheet();
+    
+    const newCount = document.getElementById('framesheets').children.length;
+    console.assert(newCount === initialCount + 1, "addSheet should add one new sheet");
+    
+    // Check that the new sheet has all required elements
+    const newSheet = document.getElementById('framesheets').lastElementChild;
+    console.assert(newSheet !== null, "New sheet should exist");
+    console.assert(newSheet.classList.contains('frame-sheet-base'), "New sheet should have correct class");
+    
+    // Check that it has a unique ID
+    const sheetId = newSheet.id;
+    console.assert(sheetId.startsWith('sheet-'), "New sheet should have unique ID starting with 'sheet-'");
+    
+    // Check that it has all frame inputs
+    for (let i = 1; i <= 10; i++) {
+        const r1Input = document.getElementById(`${sheetId}-f${i}r1`);
+        const r2Input = document.getElementById(`${sheetId}-f${i}r2`);
+        console.assert(r1Input !== null, `Frame ${i} first roll input should exist`);
+        console.assert(r2Input !== null, `Frame ${i} second roll input should exist`);
+    }
+    
+    // Check 10th frame third roll
+    const r3Input = document.getElementById(`${sheetId}-f10r3`);
+    console.assert(r3Input !== null, "10th frame third roll input should exist");
+    
+    // Check buttons
+    const calculateButton = document.getElementById(`${sheetId}-calculate-score`);
+    const clearButton = document.getElementById(`${sheetId}-clear-score`);
+    console.assert(calculateButton !== null, "Calculate score button should exist");
+    console.assert(clearButton !== null, "Clear score button should exist");
+    
+    // Check header elements
+    const nameInput = document.getElementById(`${sheetId}-name`);
+    const scoreDisplay = document.getElementById(`${sheetId}-score-result-text`);
+    console.assert(nameInput !== null, "Name input should exist");
+    console.assert(scoreDisplay !== null, "Score display should exist");
+    
+    console.log("✓ addSheet function tests passed");
 }
 
 // Run all tests
@@ -286,19 +258,17 @@ function runAllTests() {
     console.log("🧪 Starting Bowling Score Calculator Unit Tests...\n");
     
     try {
-        createMockDOM();
         testConvertBowlingInput();
         testScoreLogic();
-        testCollectInput();
-        testGenerateScore();
         testEdgeCases();
+        testAddSheetFunction();
+        testMultiSheetFunctionality();
+        testSheetInitialization();
         
         console.log("\n🎉 All tests passed! The bowling score calculator logic is working correctly.");
     } catch (error) {
         console.error("\n❌ Test failed with error:", error);
         console.error("Stack trace:", error.stack);
-    } finally {
-        restoreDOM();
     }
 }
 
@@ -308,9 +278,10 @@ if (typeof module !== 'undefined' && module.exports) {
         runAllTests,
         testConvertBowlingInput,
         testScoreLogic,
-        testCollectInput,
-        testGenerateScore,
-        testEdgeCases
+        testEdgeCases,
+        testAddSheetFunction,
+        testMultiSheetFunctionality,
+        testSheetInitialization
     };
 } else {
     // Run tests if this file is loaded in browser

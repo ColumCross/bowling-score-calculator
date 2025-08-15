@@ -140,3 +140,7 @@
 #traditional-frame-sheet button {
     margin-top: 1em;
 }
+
+.frame-sheet-base {
+    border: 2px solid black;
+}
